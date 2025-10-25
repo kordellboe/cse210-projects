@@ -1,12 +1,11 @@
 using System;
-using System.Threading;
 
 public class BreathingActivity : MindfulnessActivity
 {
     public BreathingActivity()
     {
-        ActivityName = "Breathing";
-        Description = "This activity will help you relax by walking you through breathing in and out slowly. Clear your mind and focus on your breathing.";
+        ActivityName = "Breathing Activity";
+        Description = "Breathe in and out slowly. Focus on your breath.";
     }
 
     public void RunBreathingSession()
@@ -17,33 +16,16 @@ public class BreathingActivity : MindfulnessActivity
             int remainingTime = DurationInSeconds - elapsedTime;
 
             Console.WriteLine("Breathe in...");
-            if (remainingTime >= 3)
-            {
-                ShowCountdown(3);
-                elapsedTime += 3;
-            }
-            else
-            {
-                ShowCountdown(remainingTime);
-                elapsedTime += remainingTime;
-                break;
-            }
+            int step = Math.Min(3, remainingTime);
+            ShowCountdown(step);
+            elapsedTime += step;
+            if (elapsedTime >= DurationInSeconds) break;
 
             remainingTime = DurationInSeconds - elapsedTime;
-
             Console.WriteLine("Breathe out...");
-            if (remainingTime >= 3)
-            {
-                ShowCountdown(3);
-                elapsedTime += 3;
-            }
-            else
-            {
-                ShowCountdown(remainingTime);
-                elapsedTime += remainingTime;
-                break;
-            }
+            step = Math.Min(3, remainingTime);
+            ShowCountdown(step);
+            elapsedTime += step;
         }
     }
-
 }
