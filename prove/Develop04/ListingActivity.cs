@@ -1,42 +1,52 @@
 using System;
 using System.Collections.Generic;
 
-public class ListingActivity : MindfulnessActivity
+public class ListingActivity : Activity
 {
-    private readonly List<string> _topics = new List<string>
+    private List<string> _prompts = new List<string>()
     {
-        "List people you appreciate.",
-        "List places that calm you.",
-        "List good things that happened today.",
-        "List goals you can start this week.",
-        "List skills you’re grateful to have."
+        "Who are people you appreciate?",
+        "What are some personal strengths you have?",
+        "Who have you helped this week?",
+        "Who are your heroes?"
     };
 
     public ListingActivity()
+        : base("Listing Activity",
+               "This activity helps you list as many positive things as you can.")
     {
-        ActivityName = "Listing Activity";
-        Description = "List as many items as you can for a simple topic.";
     }
 
-    public void RunListActivity()
+    public void Run()
     {
-        var rand = new Random();
-        string topic = _topics[rand.Next(_topics.Count)];
-        Console.WriteLine($"Topic: {topic}");
-        Console.WriteLine("Start listing. Press Enter after each item. Time is running...");
-        var items = new List<string>();
+        StartActivity();
 
-        DateTime end = DateTime.Now.AddSeconds(DurationInSeconds);
+        Random rand = new Random();
+        int index = rand.Next(_prompts.Count);
+
+        Console.Clear();
+        Console.WriteLine("Prompt:");
+        Console.WriteLine(_prompts[index]);
+        Console.WriteLine();
+        Console.WriteLine("Get ready...");
+        Countdown(5);
+
+        int time = GetDuration();
+        DateTime end = DateTime.Now.AddSeconds(time);
+
+        List<string> items = new List<string>();
+
+        Console.WriteLine("Start listing now!");
+
         while (DateTime.Now < end)
         {
-            if (Console.KeyAvailable)
-            {
-                string line = Console.ReadLine();
-                if (!string.IsNullOrWhiteSpace(line)) items.Add(line.Trim());
-            }
+            Console.Write("> ");
+            string item = Console.ReadLine();
+            items.Add(item);
         }
 
-        Console.WriteLine($"Items listed: {items.Count}");
-        foreach (var it in items) Console.WriteLine($"- {it}");
+        Console.WriteLine("You listed " + items.Count + " things!");
+
+        EndActivity();
     }
 }

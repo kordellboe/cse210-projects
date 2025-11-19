@@ -1,52 +1,61 @@
 using System;
 using System.Collections.Generic;
 
-public class ReflectionActivity : MindfulnessActivity
+public class ReflectionActivity : Activity
 {
-    private readonly List<string> _prompts = new List<string>
+    private List<string> _prompts = new List<string>()
     {
         "Think of a time you helped someone.",
-        "Recall a moment you felt proud.",
-        "Remember a time you learned something hard.",
-        "Think of a small win from this week.",
-        "Recall a time you showed courage."
+        "Think of a time you did something hard.",
+        "Think of a time you were proud of yourself.",
+        "Think of a time you stood up for someone."
     };
 
-    private readonly List<string> _questions = new List<string>
+    private List<string> _questions = new List<string>()
     {
-        "Why was this moment meaningful?",
-        "What did you learn about yourself?",
-        "How can you use this tomorrow?",
-        "Who else was affected and how?",
-        "What would you do the same next time?"
+        "Why was this meaningful?",
+        "How did it start?",
+        "How did it make you feel?",
+        "What did you learn?",
+        "Why was this different from other times?",
+        "What can you take from this in the future?"
     };
 
     public ReflectionActivity()
+        : base("Reflection Activity",
+               "This activity helps you think deeply about strong moments in your life.")
     {
-        ActivityName = "Reflection Activity";
-        Description = "Reflect on a prompt and consider simple questions.";
     }
 
-    public void RunReflectionSession()
+    public void Run()
     {
-        var rand = new Random();
-        string prompt = _prompts[rand.Next(_prompts.Count)];
-        Console.WriteLine($"Prompt: {prompt}");
-        Console.WriteLine("Press Enter to begin thinking.");
+        StartActivity();
+
+        Random rand = new Random();
+
+        Console.Clear();
+        Console.WriteLine("Prompt:");
+        Console.WriteLine();
+
+        int promptIndex = rand.Next(_prompts.Count);
+        Console.WriteLine(_prompts[promptIndex]);
+        Console.WriteLine();
+        Console.WriteLine("Press enter when ready.");
         Console.ReadLine();
 
-        int timePerQuestion = 5;
-        int total = 0;
-        int i = 0;
+        int time = GetDuration();
+        DateTime end = DateTime.Now.AddSeconds(time);
 
-        while (total < DurationInSeconds)
+        Console.WriteLine();
+        Console.WriteLine("Reflect on the following questions:");
+
+        while (DateTime.Now < end)
         {
-            string q = _questions[i % _questions.Count];
-            Console.WriteLine(q);
-            int step = Math.Min(timePerQuestion, DurationInSeconds - total);
-            ShowCountdown(step);
-            total += step;
-            i++;
+            int q = rand.Next(_questions.Count);
+            Console.WriteLine(_questions[q]);
+            ShowSpinner(5);
         }
+
+        EndActivity();
     }
 }

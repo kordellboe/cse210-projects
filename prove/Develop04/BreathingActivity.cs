@@ -1,31 +1,37 @@
 using System;
 
-public class BreathingActivity : MindfulnessActivity
+public class BreathingActivity : Activity
 {
     public BreathingActivity()
+        : base("Breathing Activity",
+               "This activity helps you relax by breathing in and out slowly.")
     {
-        ActivityName = "Breathing Activity";
-        Description = "Breathe in and out slowly. Focus on your breath.";
     }
 
-    public void RunBreathingSession()
+    public void Run()
     {
-        int elapsedTime = 0;
-        while (elapsedTime < DurationInSeconds)
+        StartActivity();
+
+        int time = GetDuration();
+        int passed = 0;
+
+        while (passed < time)
         {
-            int remainingTime = DurationInSeconds - elapsedTime;
+            Console.WriteLine();
+            Console.Write("Breathe in... ");
+            Countdown(4);
+            passed += 4;
 
-            Console.WriteLine("Breathe in...");
-            int step = Math.Min(3, remainingTime);
-            ShowCountdown(step);
-            elapsedTime += step;
-            if (elapsedTime >= DurationInSeconds) break;
+            if (passed >= time)
+            {
+                break;
+            }
 
-            remainingTime = DurationInSeconds - elapsedTime;
-            Console.WriteLine("Breathe out...");
-            step = Math.Min(3, remainingTime);
-            ShowCountdown(step);
-            elapsedTime += step;
+            Console.Write("Breathe out... ");
+            Countdown(4);
+            passed += 4;
         }
+
+        EndActivity();
     }
 }

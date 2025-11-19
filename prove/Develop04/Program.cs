@@ -4,49 +4,41 @@ class Program
 {
     static void Main(string[] args)
     {
-        Console.Clear();
-        Console.WriteLine("Mindfulness Program");
-
-        string choice = "";
-
-        while (choice != "4")
+        while (true)
         {
-            Console.WriteLine("\nSelect an activity:");
-            Console.WriteLine("1. Breathing Activity");
-            Console.WriteLine("2. Reflection Activity");
-            Console.WriteLine("3. Listing Activity");
+            Console.Clear();
+            Console.WriteLine("Mindfulness Program");
+            Console.WriteLine("1. Breathing");
+            Console.WriteLine("2. Reflection");
+            Console.WriteLine("3. Listing");
             Console.WriteLine("4. Quit");
+            Console.Write("Choose an option: ");
 
-            choice = Console.ReadLine();
+            string choice = Console.ReadLine();
 
             if (choice == "1")
             {
                 BreathingActivity a = new BreathingActivity();
-                a.StartActivity();
-                a.RunBreathingSession();
-                a.EndActivity();
+                a.Run();
             }
             else if (choice == "2")
             {
                 ReflectionActivity a = new ReflectionActivity();
-                a.StartActivity();
-                a.RunReflectionSession();
-                a.EndActivity();
+                a.Run();
             }
             else if (choice == "3")
             {
                 ListingActivity a = new ListingActivity();
-                a.StartActivity();
-                a.RunListActivity();
-                a.EndActivity();
+                a.Run();
             }
             else if (choice == "4")
             {
-                Console.WriteLine("Goodbye!");
+                return;
             }
             else
             {
                 Console.WriteLine("Invalid choice.");
+                Console.ReadLine();
             }
         }
     }
